@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Te Amo 💖</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: black;
+      color: pink;
+      font-family: 'Arial', sans-serif;
+      user-select: none;
+    }
+
+    .te-amo {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 24px;
+      color: pink;
+      animation: cair linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes cair {
+      0% { top: -50px; }
+      100% { top: 110vh; }
+    }
+
+    .coracao {
+      position: absolute;
+      font-size: 30px;
+      animation: subir 2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes subir {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(1.5);
+      }
+    }
+
+    .botao-musica, .botao-surpresa {
+      position: fixed;
+      top: 10px;
+      z-index: 999;
+      background: pink;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px pink;
+    }
+
+    .botao-musica { left: 10px; }
+    .botao-surpresa { right: 10px; }
+
+    audio { display: none; }
+
+    .mensagem-surpresa {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      color: gold;
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .mensagem-surpresa.mostrar {
+      opacity: 1;
+      pointer-events: all;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Botões -->
+<button class="botao-musica" onclick="tocarMusica()">💖 Tocar música</button>
+<button class="botao-surpresa" onclick="mostrarSurpresa()">Clique aqui... só se for você 💌</button>
+
+<!-- Música Heaven -->
+<audio id="musica" loop>
+  <source src="https://cdn301.savetube.su/download-direct/audio/128/1b74b0f01f887b75e4352c077d85a1dac2b67750" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
+
+<!-- Mensagem surpresa -->
+<div class="mensagem-surpresa" id="surpresa">
+  <div id="frase1">Especialmente pra você que está lendo isso...</div>
+  <div id="frase2" style="display:none; margin-top: 20px;">Você é o meu sonho mais bonito. Te amo.</div>
+</div>
+
+<script>
+  const frases = [
+    "TE AMO 💖", "TE AMO MUITO ❤️", "TE AMO DEMAIS 😍", "TE AMO PRA SEMPRE 💋",
+    "MEU AMOR É TODO SEU 💘", "TE AMO COMO NUNCA AMEI 💞", "VOCÊ É TUDO PRA MIM 🌹",
+    "TE AMO 🌟", "TE AMO 💗", "TE AMO 💓", "TE AMO 💕", "TE AMO 💝",
+    "TE AMO INFINITO ♾️", "TE AMO 💑", "TE AMO 😘", "TE AMO 😍",
+    "TE AMO DE VERDADE 🥰", "SÓ TENHO OLHOS PRA VOCÊ 👀❤️", "TE AMO 🫶",
+    "TE AMO 💌", "TE AMO 💟", "TE AMO EM TODAS AS VIDAS ✨", "TE AMO HOJE E SEMPRE 🔥"
+  ];
+
+  function criarFrase() {
+    const span = document.createElement('span');
+    span.className = 'te-amo';
+    span.textContent = frases[Math.floor(Math.random() * frases.length)];
+    span.style.left = Math.random() * window.innerWidth + 'px';
+    span.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    document.body.appendChild(span);
+    const intervalo = setInterval(() => {
+      const rect = span.getBoundingClientRect();
+      if (rect.top > window.innerHeight) {
+        clearInterval(intervalo);
+        span.remove();
+      }
+    }, 200);
+  }
+
+  setInterval(criarFrase, 200);
+
+  function tocarMusica() {
+    const musica = document.getElementById("musica");
+    musica.play();
+  }
+
+  document.addEventListener('click', (e) => {
+    const coracao = document.createElement('div');
+    coracao.className = 'coracao';
+    coracao.textContent = ['💖','❤️','💕','💘','💝'][Math.floor(Math.random() * 5)];
+    coracao.style.left = e.clientX + 'px';
+    coracao.style.top = e.clientY + 'px';
+    document.body.appendChild(coracao);
+    setTimeout(() => {
+      coracao.remove();
+    }, 2000);
+  });
+
+  function mostrarSurpresa() {
+    const div = document.getElementById("surpresa");
+    const frase2 = document.getElementById("frase2");
+    div.classList.add("mostrar");
+    setTimeout(() => {
+      frase2.style.display = "block";
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
